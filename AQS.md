@@ -1,4 +1,4 @@
-```
+``` java
 /**
    * Release action for shared mode -- signals successor and ensures
    * propagation. (Note: For exclusive mode, release just amounts
@@ -34,9 +34,10 @@
       }
   }
 ```
-// 这里需要注意的是：下一个节点的状态是Node.SIGNAL，节点代表的线程才***可能***被阻塞了，需要unpark
+// 这里需要注意的是：下一个节点的状态是Node.SIGNAL，节点代表的线程才**可能**被阻塞了，需要unpark
+
 // 1.下一个节点可能被阻塞了，unpark下一个节点，由于在unparkSuccessor方法，会判断当前节点的状态是否小于0，如果小于0则将h的状态设置为0，如果在这里直接设置为PROPAGATE状态的话，则相当于多做了一次CAS操作。unparkSuccessor中的代码如下：
-```
+``` java
 int ws = node.waitStatus;
 if (ws < 0)
     compareAndSetWaitStatus(node, ws, 0);
